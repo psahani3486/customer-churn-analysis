@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Customer Churn Analysis Dashboard — Interactive analytics and ML-powered predictions for telecom customer retention.">
+    <title>ChurnScope — Customer Churn Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+        <div class="nav-brand">
+            <span class="nav-icon">📊</span>
+            <span class="nav-title">ChurnScope</span>
+        </div>
+        <div class="nav-links">
+            <a href="#overview" class="nav-link active" data-section="overview">Overview</a>
+            <a href="#analysis" class="nav-link" data-section="analysis">Analysis</a>
+            <a href="#models" class="nav-link" data-section="models">Models</a>
+            <a href="#predictor" class="nav-link" data-section="predictor">Predictor</a>
+        </div>
+        <div class="nav-status" id="api-status">
+            <span class="status-dot"></span>
+            <span class="status-text">Connecting...</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Hero / Overview Section -->
+        <section id="overview" class="section">
+            <div class="section-header">
+                <h1 class="section-title">Customer Churn Intelligence</h1>
+                <p class="section-subtitle">Real-time analytics and ML-powered insights for customer retention</p>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid" id="kpi-grid">
+                <div class="kpi-card" id="kpi-total">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-value" id="kpi-total-value">—</div>
+                    <div class="kpi-label">Total Customers</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 100%"></div></div>
+                </div>
+                <div class="kpi-card kpi-danger" id="kpi-churned">
+                    <div class="kpi-icon">🚪</div>
+                    <div class="kpi-value" id="kpi-churned-value">—</div>
+                    <div class="kpi-label">Churned Customers</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill" id="kpi-churned-bar"></div></div>
+                </div>
+                <div class="kpi-card kpi-success" id="kpi-retained">
+                    <div class="kpi-icon">🤝</div>
+                    <div class="kpi-value" id="kpi-retained-value">—</div>
+                    <div class="kpi-label">Retained Customers</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill" id="kpi-retained-bar"></div></div>
+                </div>
+                <div class="kpi-card kpi-warning" id="kpi-rate">
+                    <div class="kpi-icon">📈</div>
+                    <div class="kpi-value" id="kpi-rate-value">—</div>
+                    <div class="kpi-label">Churn Rate</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill" id="kpi-rate-bar"></div></div>
+                </div>
+                <div class="kpi-card" id="kpi-tenure">
+                    <div class="kpi-icon">⏳</div>
+                    <div class="kpi-value" id="kpi-tenure-value">—</div>
+                    <div class="kpi-label">Avg Tenure (months)</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill" id="kpi-tenure-bar"></div></div>
+                </div>
+                <div class="kpi-card" id="kpi-monthly">
+                    <div class="kpi-icon">💰</div>
+                    <div class="kpi-value" id="kpi-monthly-value">—</div>
+                    <div class="kpi-label">Avg Monthly Charges</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill" id="kpi-monthly-bar"></div></div>
+                </div>
+            </div>
+
+            <!-- Churn Distribution + Risk Segments -->
+            <div class="chart-row">
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Churn Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="churnDistChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Risk Segments</h3>
+                    <div class="chart-container">
+                        <canvas id="riskSegmentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Section -->
+        <section id="analysis" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Deep Dive Analysis</h2>
+                <p class="section-subtitle">Explore churn patterns across customer demographics, services, and billing</p>
+            </div>
+
+            <!-- Tenure Analysis -->
+            <div class="chart-row">
+                <div class="glass-card chart-card chart-card-wide">
+                    <h3 class="card-title">Churn Rate by Tenure</h3>
+                    <div class="chart-container chart-container-wide">
+                        <canvas id="tenureChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contract + Payment -->
+            <div class="chart-row">
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Churn by Contract Type</h3>
+                    <div class="chart-container">
+                        <canvas id="contractChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Churn by Payment Method</h3>
+                    <div class="chart-container">
+                        <canvas id="paymentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Analysis -->
+            <div class="chart-row">
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Churn by Internet Service</h3>
+                    <div class="chart-container">
+                        <canvas id="internetChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Monthly Charges Comparison</h3>
+                    <div class="chart-container">
+                        <canvas id="chargesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demographics -->
+            <div class="chart-row">
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Churn by Gender</h3>
+                    <div class="chart-container">
+                        <canvas id="genderChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Senior Citizen Impact</h3>
+                    <div class="chart-container">
+                        <canvas id="seniorChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Models Section -->
+        <section id="models" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Model Performance</h2>
+                <p class="section-subtitle">Compare ML models trained on customer churn data</p>
+            </div>
+
+            <!-- Model Comparison Cards -->
+            <div class="model-grid" id="model-grid">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Feature Importance + Radar -->
+            <div class="chart-row">
+                <div class="glass-card chart-card chart-card-wide">
+                    <h3 class="card-title">Top Feature Importances</h3>
+                    <div class="chart-container chart-container-wide">
+                        <canvas id="featureChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="glass-card chart-card chart-card-wide">
+                    <h3 class="card-title">Model Comparison Radar</h3>
+                    <div class="chart-container chart-container-wide">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Predictor Section -->
+        <section id="predictor" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Churn Predictor</h2>
+                <p class="section-subtitle">Predict whether a customer will churn based on their profile</p>
+            </div>
+
+            <div class="predictor-layout">
+                <div class="glass-card predictor-form-card">
+                    <h3 class="card-title">Customer Profile</h3>
+                    <form id="predict-form" class="predict-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="pred-gender">Gender</label>
+                                <select id="pred-gender" name="gender">
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-senior">Senior Citizen</label>
+                                <select id="pred-senior" name="SeniorCitizen">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-partner">Partner</label>
+                                <select id="pred-partner" name="Partner">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-dependents">Dependents</label>
+                                <select id="pred-dependents" name="Dependents">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-tenure">Tenure (months)</label>
+                                <input type="number" id="pred-tenure" name="tenure" min="1" max="72" value="12">
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-monthly">Monthly Charges ($)</label>
+                                <input type="number" id="pred-monthly" name="MonthlyCharges" min="18" max="120" step="0.01" value="65.00">
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-total">Total Charges ($)</label>
+                                <input type="number" id="pred-total" name="TotalCharges" min="0" max="9000" step="0.01" value="780.00">
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-phone">Phone Service</label>
+                                <select id="pred-phone" name="PhoneService">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pred-paperless">Paperless Billing</label>
+                                <select id="pred-paperless" name="PaperlessBilling">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="predict-btn" id="predict-btn">
+                            <span class="btn-text">🔮 Predict Churn</span>
+                            <span class="btn-loading" style="display:none;">Analyzing...</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="glass-card predictor-result-card" id="prediction-result" style="display:none;">
+                    <h3 class="card-title">Prediction Result</h3>
+                    <div class="result-body">
+                        <div class="result-prediction" id="result-prediction">—</div>
+                        <div class="result-probability-container">
+                            <div class="result-label">Churn Probability</div>
+                            <div class="result-gauge">
+                                <div class="gauge-fill" id="gauge-fill"></div>
+                                <div class="gauge-text" id="gauge-text">0%</div>
+                            </div>
+                        </div>
+                        <div class="result-risk" id="result-risk">
+                            <span class="risk-badge" id="risk-badge">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>ChurnScope — Customer Churn Intelligence Platform &copy; 2026</p>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <p class="loader-text">Training ML Models & Loading Data...</p>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
