@@ -41,6 +41,11 @@ def create_app():
     def health():
         return {"status": "ok", "message": "Customer Churn Analysis API is running"}
 
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        import traceback
+        return {"error": str(e), "traceback": traceback.format_exc()}, 500
+
     return app
 
 
