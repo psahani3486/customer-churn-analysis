@@ -12,8 +12,8 @@ sys.path.insert(0, PROJECT_ROOT)
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 
-from routes.analytics import analytics_bp
-from routes.predictions import predictions_bp
+from backend.routes.analytics import analytics_bp
+from backend.routes.predictions import predictions_bp
 
 
 def create_app():
