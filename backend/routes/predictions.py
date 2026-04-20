@@ -42,25 +42,40 @@ def _ensure_models():
 @predictions_bp.route("/model-performance")
 def model_performance():
     """Get performance metrics for all trained models."""
-    results = _ensure_models()
-    return jsonify({
-        "models": results["model_performance"],
-        "best_model": results["best_model"]
-    })
+    try:
+        results = _ensure_models()
+        return jsonify({
+            "models": results["model_performance"],
+            "best_model": results["best_model"]
+        })
+    except Exception as e:
+        import traceback
+        return jsonify({
+            "error_message": str(e),
+            "traceback": traceback.format_exc()
+        }), 500
 
 
 @predictions_bp.route("/feature-importance")
 def feature_importance():
     """Get top feature importances from best model."""
-    results = _ensure_models()
-    return jsonify(results["feature_importance"])
+    try:
+        results = _ensure_models()
+        return jsonify(results["feature_importance"])
+    except Exception as e:
+        import traceback
+        return jsonify({"error_message": str(e), "traceback": traceback.format_exc()}), 500
 
 
 @predictions_bp.route("/risk-segments")
 def risk_segments():
     """Get customer risk segmentation."""
-    results = _ensure_models()
-    return jsonify(results["risk_segments"])
+    try:
+        results = _ensure_models()
+        return jsonify(results["risk_segments"])
+    except Exception as e:
+        import traceback
+        return jsonify({"error_message": str(e), "traceback": traceback.format_exc()}), 500
 
 
 @predictions_bp.route("/predict", methods=["POST"])
