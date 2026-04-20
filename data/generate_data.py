@@ -8,7 +8,7 @@ import os
 
 np.random.seed(42)
 
-N = 7043  # Similar size to the classic Telco dataset
+N = 1500  # Reduced size to prevent Gunicorn timeout on Render Free Tier
 
 # --- Customer Demographics ---
 customer_ids = [f"CUST-{str(i).zfill(5)}" for i in range(1, N + 1)]
