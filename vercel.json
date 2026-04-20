@@ -1,11 +1,6 @@
 {
   "version": 2,
   "public": true,
-  "name": "churnscope-frontend",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
-    }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }

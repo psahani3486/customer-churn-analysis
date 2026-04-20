@@ -1,0 +1,16 @@
+# Ignore backend and data files for Vercel static deployment
+backend/
+data/
+src/
+models/
+notebooks/
+app.py
+wsgi.py
+requirements.txt
+.python-version
+generate_data.py
+README.md
+task.md
+walkthrough.md
+implementation_plan.md
+# Keep only frontend/ and vercel.json
