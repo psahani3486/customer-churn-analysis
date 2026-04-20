@@ -17,13 +17,13 @@ MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 
 
 def get_models():
-    """Return dictionary of models to train."""
+    """Return dictionary of models to train (optimized for low-memory environments)."""
     return {
         "Random Forest": RandomForestClassifier(
-            n_estimators=200, max_depth=10, random_state=42, n_jobs=-1
+            n_estimators=100, max_depth=8, random_state=42
         ),
         "Gradient Boosting": GradientBoostingClassifier(
-            n_estimators=150, max_depth=5, learning_rate=0.1, random_state=42
+            n_estimators=80, max_depth=4, learning_rate=0.1, random_state=42
         ),
         "Logistic Regression": LogisticRegression(
             max_iter=1000, random_state=42, C=0.5
