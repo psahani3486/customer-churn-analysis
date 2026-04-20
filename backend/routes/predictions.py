@@ -24,6 +24,14 @@ def _ensure_models():
     global _model_results, _scaler, _feature_names
     if _model_results is None:
         data_path = os.path.join(PROJECT_ROOT, "data", "churn.csv")
+        
+        # Auto-generate data if missing
+        if not os.path.exists(data_path):
+            print(">> [INFO] Data file not found. Running generate_data.py...")
+            import subprocess
+            gen_script = os.path.join(PROJECT_ROOT, "data", "generate_data.py")
+            subprocess.run([sys.executable, gen_script], check=True)
+            
         X_train, X_test, y_train, y_test, scaler, raw_df = preprocess_pipeline(data_path)
         _scaler = scaler
         _feature_names = X_train.columns.tolist()

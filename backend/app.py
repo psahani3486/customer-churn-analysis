@@ -18,7 +18,9 @@ from routes.predictions import predictions_bp
 
 def create_app():
     app = Flask(__name__, static_folder=None)
-    CORS(app)
+    
+    # Allow CORS from all origins for separate frontend/backend deployment
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     # Register blueprints
     app.register_blueprint(analytics_bp, url_prefix="/api")

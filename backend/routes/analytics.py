@@ -25,6 +25,14 @@ def _get_df():
     global _cached_df
     if _cached_df is None:
         data_path = os.path.join(PROJECT_ROOT, "data", "churn.csv")
+        
+        # Auto-generate data if missing (critical for automated cloud deployments)
+        if not os.path.exists(data_path):
+            print(">> [INFO] Data file not found. Running generate_data.py...")
+            import subprocess
+            gen_script = os.path.join(PROJECT_ROOT, "data", "generate_data.py")
+            subprocess.run([sys.executable, gen_script], check=True)
+            
         _cached_df = load_data(data_path)
     return _cached_df
 

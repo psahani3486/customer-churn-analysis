@@ -1,9 +1,12 @@
 /**
  * API Communication Layer for ChurnScope Dashboard.
- * Handles all fetch requests to the Flask backend.
+ * 
+ * Supports dynamic API URL configuration:
+ * 1. Checks window.CHURNSCOPE_API_URL (provided by config)
+ * 2. Defaults to current origin (local dev)
  */
 
-const API_BASE = window.location.origin + '/api';
+const API_BASE = (window.CHURNSCOPE_API_URL || window.location.origin) + '/api';
 
 const ChurnAPI = {
     /**

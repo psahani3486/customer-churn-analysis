@@ -158,6 +158,27 @@ The synthetic telecom churn dataset contains **7,043 customers** with 21 feature
 
 ---
 
+## 🌍 Cloud Deployment (Render & Vercel)
+
+This project is configured for a separate frontend/backend deployment.
+
+### 1. Backend (Render)
+1. **GitHub Link**: Connect your repository to [Render](https://render.com).
+2. **Service Type**: Web Service (Python).
+3. **Build Command**: `pip install -r requirements.txt`
+4. **Start Command**: `gunicorn wsgi:app`
+5. **Environment**: Render automatically handles the `PORT`. Note your service URL (e.g., `https://your-app.onrender.com`).
+
+### 2. Frontend (Vercel)
+1. **GitHub Link**: Link your repository to [Vercel](https://vercel.com).
+2. **Root Directory**: Select `frontend` (or let `vercel.json` handle it).
+3. **Connect to Backend**:
+   - Open `frontend/index.html` in your GitHub repo.
+   - Update `window.CHURNSCOPE_API_URL = 'https://your-render-app.onrender.com';` with your Render URL.
+   - Commit the change, and Vercel will redeploy automatically.
+
+---
+
 ## 📄 License
 
 MIT License — Feel free to use and modify for your projects.
